@@ -16,13 +16,12 @@ import (
 // internal, package-level PG
 var glbPG *PortGenerator = NewPortGenerator()
 
-// UniquePort generates a package-level-unique port.
-// Will only return a port < 1024 if includeWellKnown.
+// UniquePort returns a new, unique port between [1024-65535].
 //
-// Uniqueness is NOT enforced relative to local PortGenerators.
-/*func UniquePort(includeWellKnown bool) uint16 {
-	return glbPG.Generate(includeWellKnown)
-}*/
+// Panics if more than (65535-1024) unique ports are requested.
+func UniquePort() uint16 {
+	return glbPG.Generate()
+}
 
 //#endregion
 
