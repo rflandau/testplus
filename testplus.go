@@ -1,5 +1,7 @@
 // Package testplus includes utilities to ease writing tests.
 // Functionality in this package is intended only for test cases and focuses on usability over performance.
+//
+// All functionality is concurrency-safe.
 package testplus
 
 import (
@@ -35,10 +37,9 @@ type PortGenerator struct {
 }
 
 // NewPortGenerator returns a struct capable of producing unique port numbers.
-// It front-loads the performance cost by generating a full list of valid port numbers to be drawn from later
+// Front-loads the performance cost by generating a full list of valid port numbers to be drawn from later.
 func NewPortGenerator() *PortGenerator {
 	pg := &PortGenerator{
-		//availableWK: make([]uint16, 1023),                // (1-1023)
 		available: rand.Perm(math.MaxUint16 - 1023),
 	}
 
@@ -47,7 +48,7 @@ func NewPortGenerator() *PortGenerator {
 
 // Generate returns a new, unique port between [1024-65535].
 //
-// If no ports are available... TODO
+// Panics if more than (65535-1024) unique ports are requested.
 func (gen *PortGenerator) Generate() uint16 {
 	gen.mu.Lock()
 	defer gen.mu.Unlock()
