@@ -64,6 +64,10 @@ func (gen *PortGenerator) Generate() uint16 {
 
 // SlicesUnorderedEqual compares the elements of the given slices for equality and equal count without taking order of the elements into account.
 func SlicesUnorderedEqual[T comparable](a []T, b []T) bool {
+	if len(a) != len(b) {
+		return false
+	}
+
 	// convert each slice into a map of key --> count
 	var wg sync.WaitGroup
 
