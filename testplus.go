@@ -5,6 +5,7 @@
 package testplus
 
 import (
+	"fmt"
 	"maps"
 	"math"
 	"math/rand/v2"
@@ -87,4 +88,10 @@ func SlicesUnorderedEqual[T comparable](a []T, b []T) bool {
 
 	wg.Wait()
 	return maps.Equal(am, bm)
+}
+
+// ExpectedActual returns a string comparing the expected result to the actual result over two lines.
+// Used to add clarity to unit test error messages.
+func ExpectedActual[T any](expected, actual T) string {
+	return fmt.Sprintf("\tExpected: '%v'\n\tActual: '%v'", expected, actual)
 }
